@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --color-primary: 255 0 0;
+        --color-secondary: 26 54 141;
+        --color-warning: 255 255 0;
+        --color-succes: 49 165 41;
+        /* ... */
+    }
+}
