@@ -30,21 +30,29 @@
             </p>
             <div>
               <div class="flex items-center mb-4">
-                <label for="answer" class="mr-2">Kies een antwoord:</label>
-                <select id="answer" class="border border-gray-300 rounded-md px-3 py-2">
-                  <option value="1">Strongly Disagree</option>
-                  <option value="2">Disagree</option>
-                  <option value="3">Neutral</option>
-                  <option value="4">Agree</option>
-                  <option value="5">Strongly Agree</option>
+                <select id="answer" class="border border-gray-300 rounded-md px-3 py-2 w-40"
+                  v-model="currentQuestion.answer">
+                  <option value=1>Kan ik niet</option>
+                  <option value=2>ken het maar nooit gebruikt</option>
+                  <option value=3>kan het toepassen</option>
+                  <option value=4>kan het toepassen in andere situaties</option>
+                  <option value=5>kan een ander uitleggen wat het is en toepassen</option>
                 </select>
               </div>
-              <button class="bg-primary hover:bg-secondary text-white text-lg font-bold px-3 py-2 rounded-lg" @click="nextQuestion">
+              <button class="bg-primary hover:bg-secondary text-white text-lg font-bold px-3 py-2 rounded-lg"
+                @click="nextQuestion">
                 Volgende Vraag
               </button>
             </div>
           </div>
         </div>
+
+        <div v-else>
+          <div class="max-w-md mx-auto bg-white shadow-md  p-6">
+            <h2 class="text-xl font-semibold mb-4"> Uw Score is: {{ this.totalSum }}</h2>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -52,8 +60,9 @@
 
 
 <script>
+
 export default {
-  name: 'FlashCard',
+  name: "FlashCard",
   data() {
     return {
       welcomeMSG: true,
@@ -120,10 +129,19 @@ export default {
     currentQuestion() {
       return this.questions[this.currentQuestionIndex];
     },
+    totalSum() {
+      return this.questions.reduce((sum, question) => sum + Number(question.answer), 0)
+    }
   },
   methods: {
     nextQuestion() {
-      this.currentQuestionIndex++;
+      if (this.currentQuestionIndex === 8) {
+        this.currentQuestionIndex = false;
+      }
+      else {
+        this.currentQuestion.answered = true;
+        this.currentQuestionIndex++;
+      }
     },
   },
 };
